@@ -7,7 +7,7 @@ REQUESTS = Counter("app_requests_total", "Nombre de requetes")
 @app.route("/")
 def home():
     REQUESTS.inc()
-    return "Bonjour depuis Docker - version 1"
+    return "Bonjour depuis Docker - version 2"
 
 @app.route("/metrics")
 def metrics():
