@@ -10,7 +10,9 @@ pipeline {
     stage('Deploy') {
       steps {
         sh 'docker rm -f mon-app || true'
-        sh 'docker run -d --name mon-app -p 5000:5000 --restart unless-stopped mon-app:latest'
+        sh 'docker run -d --name mon-app -p 5000:80 --restart unless-stopped mon-app:latest'
+        sh 'docker rm -f nginx-exporter || true'
+        sh 'docker run -d --name nginx-exporter --add-host=host.docker.internal:host-gateway -p 9113:9113 --restart unless-stopped nginx/nginx-prometheus-exporter:latest --nginx.scrape-uri=http://host.docker.internal:5000/stub_status'
       }
     }
   }
